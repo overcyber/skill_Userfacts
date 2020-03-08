@@ -6,7 +6,7 @@ from core.dialog.model.DialogSession import DialogSession
 class Userfacts(AliceSkill):
 	"""
 	Author: Psychokiller1888
-	Description: Now alice can remember things you teach her!
+	Description: Now alice can remember things about you if you teach her!
 	"""
 
 	_INTENT_GET_USER_FACT    = Intent('GetUserFact')
@@ -25,7 +25,8 @@ class Userfacts(AliceSkill):
 
 	def __init__(self):
 		self._INTENTS = [
-			(self._INTENT_GET_USER_FACT, self.getUserFact)
+			(self._INTENT_GET_USER_FACT, self.getUserFact),
+			(self._INTENT_USER_ANSWER, self.getUserFact)
 		]
 
 		super().__init__(supportedIntents=self._INTENTS, databaseSchema=self.DATABASE)
@@ -35,12 +36,26 @@ class Userfacts(AliceSkill):
 		if not session.user:
 			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
 
+		slots = session.slotsAsObjects
+		if not slots['RandomWord']:
+			self.endDialog(sessionId=session.sessionId, text=self.TalkManager.randomTalk('notUnderstood', skill='system'))
+
+		if len(slots['RandomWord']) == 1:
+			fact = session.slotRawValue('RandomWord')
+		else:
+			fact = ''
+			for slot in slots:
+				if not slot:
+					continue
+
+				fact += f' {slot.value["value"]}'
+
 		answer = self.databaseFetch(
 			tableName='facts',
-			query='SELECT * FROM :__table__ WHERE username=`{username}` AND fact=`{fact}`',
+			query='SELECT value FROM :__table__ WHERE username = :username AND fact = :fact',
 			values={
 				'username': session.user,
-				'fact': session.slotRawValue('Userfact')
+				'fact'    : fact
 			}
 		)
 
@@ -51,4 +66,9 @@ class Userfacts(AliceSkill):
 				intentFilter=[self._INTENT_USER_ANSWER],
 				probabilityThreshold=0.1,
 				currentDialogState='answeringFactValue'
+			)
+		else:
+			self.endDialog(
+				sessionId=session.sessionId,
+				text=self.randomTalk(text='fact', replace=[answer['value']])
 			)

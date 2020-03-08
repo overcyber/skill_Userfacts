@@ -1,1 +1,17 @@
-{}
+{
+	"dontKnowYou": [
+		"I'm sorry but I don't know who you are",
+		"Sorry, can't answer, I don't know who you are",
+		"Who are you? I need to know to answer you"
+	],
+	"noResult": [
+		"You never told me that. I'll remember if you tell me!",
+		"Sorry, I don't know, you never told. I can remember if you tell me!",
+		"I'm afraid you never told me that. I will remember if you tell me though!"
+	],
+	"fact": [
+		"You told me your {} is <break time=\"50ms\"/>{}",
+		"You said your {} is <break time=\"50ms\"/>{}",
+		""
+	]
+}
