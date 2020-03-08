@@ -1,8 +1,8 @@
 {
 	"dontKnowYou": [
-		"I'm sorry but I don't know who you are",
-		"Sorry, can't answer, I don't know who you are",
-		"Who are you? I need to know to answer you"
+		"I'm sorry but I don't know who you are.",
+		"Sorry, can't answer, I don't know who you are.",
+		"Who are you? I need to know to answer you."
 	],
 	"noResult": [
 		"You never told me that. I'll remember if you tell me!",
@@ -10,8 +10,25 @@
 		"I'm afraid you never told me that. I will remember if you tell me though!"
 	],
 	"fact": [
-		"You told me your {} is <break time=\"50ms\"/>{}",
-		"You said your {} is <break time=\"50ms\"/>{}",
+		"You told me your {0} is <break time=\"50ms\"/>{1}.",
+		"You said your {0} is <break time=\"50ms\"/>{1}.",
 		""
+	],
+	"factConfirmValue": [
+		"{}?",
+		"Just to be sure, you said {}?",
+		"{}? Is that correct?",
+		"Did I understand correctly, you said {}?"
+	],
+	"confirmValueSaved": [
+		"Ok! I'll remember that!",
+		"Nice to know! I will remember!",
+		"Cool! I won't forget!",
+		"Great, i'll keep that in mind!"
+	],
+	"valueNotCorrect": [
+		"Oops, sorry, what is it then?",
+		"I did not understand correctly, sorry for that! What's the answer then?",
+		"I'm sorry, can you repeat it?"
 	]
 }

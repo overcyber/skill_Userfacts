@@ -1,5 +1,6 @@
 from core.base.model.AliceSkill import AliceSkill
 from core.base.model.Intent import Intent
+from core.commons import constants
 from core.dialog.model.DialogSession import DialogSession
 
 
@@ -9,10 +10,11 @@ class Userfacts(AliceSkill):
 	Description: Now alice can remember things about you if you teach her!
 	"""
 
-	_INTENT_GET_USER_FACT    = Intent('GetUserFact')
+	_INTENT_GET_USER_FACT = Intent('GetUserFact')
 	_INTENT_DELETE_ALL_FACTS = Intent('DeleteAllUserFacts')
-	_INTENT_USER_ANSWER      = Intent('UserRandomAnswer')
-	_INTENT_ANSWER_YES_OR_NO = Intent('AnswerYesOrNo')
+	_INTENT_USER_ANSWER = Intent('UserRandomAnswer', isProtected=True)
+	_INTENT_ANSWER_YES_OR_NO = Intent('AnswerYesOrNo', isProtected=True)
+	_INTENT_SPELL_WORD = Intent('SpellWord', isProtected=True)
 
 	DATABASE = {
 		'facts': [
@@ -26,22 +28,84 @@ class Userfacts(AliceSkill):
 	def __init__(self):
 		self._INTENTS = [
 			(self._INTENT_GET_USER_FACT, self.getUserFact),
-			(self._INTENT_USER_ANSWER, self.getUserFact)
+			self._INTENT_USER_ANSWER,
+			self._INTENT_SPELL_WORD,
+			self._INTENT_ANSWER_YES_OR_NO
 		]
+
+		self._INTENT_USER_ANSWER.dialogMapping = {
+			'answeringFactValue': self.setUserFact
+		}
+
+		self._INTENT_SPELL_WORD.dialogMapping = {
+			'answeringFactValue': self.setUserFact
+		}
+
+		self._INTENT_ANSWER_YES_OR_NO.dialogMapping = {
+			'confirmingFactValue': self.userFactValueConfirmed
+		}
 
 		super().__init__(supportedIntents=self._INTENTS, databaseSchema=self.DATABASE)
 
 
+	def setUserFact(self, session: DialogSession):
+		if session.intentName == self._INTENT_USER_ANSWER:
+			value = session.slots['RandomWord'].lower()
+		else:
+			value = ''.join([slot.value['value'] for slot in session.slotsAsObjects['Letters']])
+
+		self.continueDialog(
+			sessionId=session.sessionId,
+			text=self.randomTalk(text='factConfirmValue', replace=[value]),
+			intentFilter=[self._INTENT_ANSWER_YES_OR_NO],
+			probabilityThreshold=0.1,
+			currentDialogState='confirmingFactValue',
+			customData={
+				'fact' : session.customData['fact'],
+				'value': value
+			}
+		)
+
+
+	def userFactValueConfirmed(self, session: DialogSession):
+		if self.Commons.isYes(session):
+
+			self.databaseInsert(
+				tableName='facts',
+				values={
+					'username': session.user,
+					'fact'    : session.customData['fact'],
+					'value'   : session.customData['value']
+				}
+			)
+
+			self.endDialog(
+				sessionId=session.sessionId,
+				text=self.randomTalk(text='confirmValueSaved')
+			)
+		else:
+			self.continueDialog(
+				sessionId=session.sessionId,
+				text=self.randomTalk(text='valueNotCorrect'),
+				intentFilter=[self._INTENT_USER_ANSWER, self._INTENT_SPELL_WORD],
+				probabilityThreshold=0.01,
+				currentDialogState='answeringFactValue',
+				customData={
+					'fact': session.customData['fact']
+				}
+			)
+
+
 	def getUserFact(self, session: DialogSession, **_kwargs):
-		if not session.user:
+		if not session.user or session.user == constants.UNKNOWN_USER:
 			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
 
 		slots = session.slotsAsObjects
-		if not slots['RandomWord']:
+		if not slots['Fact']:
 			self.endDialog(sessionId=session.sessionId, text=self.TalkManager.randomTalk('notUnderstood', skill='system'))
 
-		if len(slots['RandomWord']) == 1:
-			fact = session.slotRawValue('RandomWord')
+		if len(slots['Fact']) == 1:
+			fact = session.slotRawValue('Fact')
 		else:
 			fact = ''
 			for slot in slots:
@@ -50,6 +114,7 @@ class Userfacts(AliceSkill):
 
 				fact += f' {slot.value["value"]}'
 
+		# noinspection SqlResolve
 		answer = self.databaseFetch(
 			tableName='facts',
 			query='SELECT value FROM :__table__ WHERE username = :username AND fact = :fact',
@@ -63,12 +128,15 @@ class Userfacts(AliceSkill):
 			self.continueDialog(
 				sessionId=session.sessionId,
 				text=self.randomTalk(text='noResult'),
-				intentFilter=[self._INTENT_USER_ANSWER],
-				probabilityThreshold=0.1,
-				currentDialogState='answeringFactValue'
+				intentFilter=[self._INTENT_USER_ANSWER, self._INTENT_SPELL_WORD],
+				probabilityThreshold=0.01,
+				currentDialogState='answeringFactValue',
+				customData={
+					'fact': fact
+				}
 			)
 		else:
 			self.endDialog(
 				sessionId=session.sessionId,
-				text=self.randomTalk(text='fact', replace=[answer['value']])
+				text=self.randomTalk(text='fact', replace=[fact, answer['value']])
 			)
