@@ -10,12 +10,12 @@
 		"I'm afraid you never told me that. I will remember if you tell me though!"
 	],
 	"fact": [
-		"You told me your {0} is <break time=\"50ms\"/>{1}.",
-		"You said your {0} is <break time=\"50ms\"/>{1}.",
+		"You told me your {0} is <break time=\"25ms\"/>{1}.",
+		"You said your {0} is <break time=\"25ms\"/>{1}.",
 		""
 	],
 	"factConfirmValue": [
-		"{}?",
+		"You said {}?",
 		"Just to be sure, you said {}?",
 		"{}? Is that correct?",
 		"Did I understand correctly, you said {}?"

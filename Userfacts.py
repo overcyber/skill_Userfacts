@@ -18,10 +18,10 @@ class Userfacts(AliceSkill):
 
 	DATABASE = {
 		'facts': [
-			'id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE',
 			'username TEXT NOT NULL',
 			'fact TEXT NOT NULL',
-			'value TEXT NOT NULL'
+			'value TEXT NOT NULL',
+			'UNIQUE (username, fact)'
 		]
 	}
 
