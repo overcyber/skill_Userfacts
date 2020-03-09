@@ -91,7 +91,8 @@ class Userfacts(AliceSkill):
 				probabilityThreshold=0.01,
 				currentDialogState='answeringFactValue',
 				customData={
-					'fact': session.customData['fact']
+					'skill': self.name,
+					'fact' : session.customData['fact']
 				}
 			)
 
@@ -132,7 +133,8 @@ class Userfacts(AliceSkill):
 				probabilityThreshold=0.01,
 				currentDialogState='answeringFactValue',
 				customData={
-					'fact': fact
+					'skill': self.name,
+					'fact' : fact
 				}
 			)
 		else:
