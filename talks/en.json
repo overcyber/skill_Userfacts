@@ -30,5 +30,14 @@
 		"Oops, sorry, what is it then?",
 		"I did not understand correctly, sorry for that! What's the answer then?",
 		"I'm sorry, can you repeat it?"
+	],
+	"notUpToYou": [
+		"I'm sorry but it's not up to you to decide about that.",
+		"No, this decision is not yours to make!"
+	],
+	"okDeleted": [
+		"Ok, it's deleted",
+		"Ok, forgotten... What were we talking about?",
+		"Sure, cleared that from my database"
 	]
 }

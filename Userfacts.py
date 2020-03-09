@@ -45,7 +45,51 @@ class Userfacts(AliceSkill):
 			'confirmingFactValue': self.userFactValueConfirmed
 		}
 
+		self._previousFact = ''
+
 		super().__init__(supportedIntents=self._INTENTS, databaseSchema=self.DATABASE)
+
+
+	def onContextSensitiveDelete(self, session: DialogSession):
+		if not self.isContextForMe(session):
+			return
+
+		self.DatabaseManager.delete(
+			tableName='facts',
+			callerName=self.name,
+			query='DELETE FROM :__table__ WHERE username = :user AND fact = :fact',
+			values={
+				'user': session.user,
+				'fact': self._previousFact
+			}
+		)
+
+		self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='okDeleted'))
+
+
+	def onContextSensitiveEdit(self, session: DialogSession):
+		if not self.isContextForMe(session):
+			return
+
+
+	def isContextForMe(self, session: DialogSession) -> bool:
+		if not self._previousFact:
+			return False
+
+		if not session.user or session.user == constants.UNKNOWN_USER:
+			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
+			return False
+
+		contextSkill = self.SkillManager.getSkillInstance(skillName='ContextSensitive', silent=True)
+		lastSession = contextSkill.lastSession()
+		if not lastSession or str(self._INTENT_GET_USER_FACT) not in lastSession.intentHistory:
+			return False
+
+		if lastSession.customData['user'] != session.user:
+			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='notUpToYou'))
+			return False
+
+		return True
 
 
 	def setUserFact(self, session: DialogSession):
@@ -138,6 +182,7 @@ class Userfacts(AliceSkill):
 				}
 			)
 		else:
+			self._previousFact = fact
 			self.endDialog(
 				sessionId=session.sessionId,
 				text=self.randomTalk(text='fact', replace=[fact, answer['value']])
