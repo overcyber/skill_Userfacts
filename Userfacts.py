@@ -30,7 +30,8 @@ class Userfacts(AliceSkill):
 			(self._INTENT_GET_USER_FACT, self.getUserFact),
 			self._INTENT_USER_ANSWER,
 			self._INTENT_SPELL_WORD,
-			self._INTENT_ANSWER_YES_OR_NO
+			self._INTENT_ANSWER_YES_OR_NO,
+			(self._INTENT_DELETE_ALL_FACTS, self.deleteAll)
 		]
 
 		self._INTENT_USER_ANSWER.dialogMapping = {
@@ -42,7 +43,8 @@ class Userfacts(AliceSkill):
 		}
 
 		self._INTENT_ANSWER_YES_OR_NO.dialogMapping = {
-			'confirmingFactValue': self.userFactValueConfirmed
+			'confirmingFactValue': self.userFactValueConfirmed,
+			'confirmingDeleteAll': self.deleteAllConfirmed
 		}
 
 		self._previousFact = ''
@@ -54,6 +56,7 @@ class Userfacts(AliceSkill):
 		if not self.isContextForMe(session):
 			return
 
+		# noinspection SqlResolve
 		self.DatabaseManager.delete(
 			tableName='facts',
 			callerName=self.name,
@@ -70,6 +73,18 @@ class Userfacts(AliceSkill):
 	def onContextSensitiveEdit(self, session: DialogSession):
 		if not self.isContextForMe(session):
 			return
+
+		self.continueDialog(
+			sessionId=session.sessionId,
+			text=self.randomTalk(text='whatIsItNew'),
+			intentFilter=[self._INTENT_USER_ANSWER, self._INTENT_SPELL_WORD],
+			probabilityThreshold=0.01,
+			currentDialogState='answeringFactValue',
+			customData={
+				'skill': self.name,
+				'fact' : self._previousFact
+			}
+		)
 
 
 	def isContextForMe(self, session: DialogSession) -> bool:
@@ -90,6 +105,39 @@ class Userfacts(AliceSkill):
 			return False
 
 		return True
+
+
+	def deleteAll(self, session: DialogSession):
+		if not session.user or session.user == constants.UNKNOWN_USER:
+			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
+
+		self.continueDialog(
+			sessionId=session.sessionId,
+			text=self.randomTalk(text='confirmDeleteAll'),
+			intentFilter=[self._INTENT_ANSWER_YES_OR_NO],
+			probabilityThreshold=0.1,
+			currentDialogState='confirmingDeleteAll'
+		)
+
+
+	def deleteAllConfirmed(self, session: DialogSession):
+		if self.Commons.isYes(session):
+			# noinspection SqlResolve
+			self.DatabaseManager.delete(
+				tableName='facts',
+				callerName=self.name,
+				query='DELETE FROM :__table__ WHERE username = :user',
+				values={
+					'user': session.user
+				}
+			)
+
+			self.endDialog(
+				sessionId=session.sessionId,
+				text=self.randomTalk(text='okDeleted')
+			)
+		else:
+			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='deleteAllDenied'))
 
 
 	def setUserFact(self, session: DialogSession):
@@ -114,8 +162,11 @@ class Userfacts(AliceSkill):
 	def userFactValueConfirmed(self, session: DialogSession):
 		if self.Commons.isYes(session):
 
-			self.databaseInsert(
+			# noinspection SqlResolve
+			self.DatabaseManager.replace(
 				tableName='facts',
+				query='REPLACE INTO :__table__ (username, fact, value) VALUES (:username, :fact, :value)',
+				callerName=self.name,
 				values={
 					'username': session.user,
 					'fact'    : session.customData['fact'],
