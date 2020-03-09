@@ -13,7 +13,6 @@
 				"can you tell me what's my {name:=>Fact} please",
 				"tell me what's my {name:=>Fact} please",
 				"tell me what's my {size:=>Fact}",
-				"tell me what's my {name:=>Fact} please",
 				"do you know what's my {name:=>Fact}",
 				"do you remember what's my {favorite dish:=>Fact}",
 				"tell me who's my {wife:=>Fact}",
