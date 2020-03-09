@@ -1,8 +1,8 @@
 {
     "name": "Userfacts",
-    "version": "0.0.1",
-    "icon": "fab fa-battle-net",
-    "category": "undefined",
+    "version": "1.0.0",
+    "icon": "fas user-check",
+    "category": "entertainment",
     "author": "Psychokiller1888",
     "maintainers": [],
     "desc": "Now alice can remember things you teach her!",
