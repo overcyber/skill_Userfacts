@@ -1,7 +1,7 @@
 {
     "name": "Userfacts",
-    "version": "1.0.0",
-    "icon": "fas user-check",
+    "version": "1.0.1",
+    "icon": "fas fa-user-check",
     "category": "entertainment",
     "author": "Psychokiller1888",
     "maintainers": [],
