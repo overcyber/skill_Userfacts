@@ -40,6 +40,11 @@
 		"Ok, forgotten... What were we talking about?",
 		"Sure, cleared that from my database"
 	],
+	"okDeletedAll": [
+		"Sad me... Well, you're gone from my database...",
+		"Ok, gonna miss you though... I just... deleted... you",
+		"That's sad but well, if you want it... Poof! You're gone!"
+	],
 	"confirmDeleteAll": [
 		"Are you sure you want me to forget everything?",
 		"Are you really sure about that?",

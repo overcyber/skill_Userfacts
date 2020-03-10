@@ -134,13 +134,13 @@ class Userfacts(AliceSkill):
 
 			self.endDialog(
 				sessionId=session.sessionId,
-				text=self.randomTalk(text='okDeleted')
+				text=self.randomTalk(text='okDeletedAll')
 			)
 		else:
 			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='deleteAllDenied'))
 
 
-	def setUserFact(self, session: DialogSession):
+	def setUserFact(self, session: DialogSession) -> bool:
 		if session.intentName == self._INTENT_USER_ANSWER:
 			value = session.slots['RandomWord'].lower()
 		else:
@@ -157,11 +157,11 @@ class Userfacts(AliceSkill):
 				'value': value
 			}
 		)
+		return True
 
 
 	def userFactValueConfirmed(self, session: DialogSession):
 		if self.Commons.isYes(session):
-
 			# noinspection SqlResolve
 			self.DatabaseManager.replace(
 				tableName='facts',
@@ -201,14 +201,10 @@ class Userfacts(AliceSkill):
 			self.endDialog(sessionId=session.sessionId, text=self.TalkManager.randomTalk('notUnderstood', skill='system'))
 
 		if len(slots['Fact']) == 1:
-			fact = session.slotRawValue('Fact')
+			fact = session.slotRawValue('Fact').lower()
 		else:
-			fact = ''
-			for slot in slots:
-				if not slot:
-					continue
-
-				fact += f' {slot.value["value"]}'
+			facts = [slot.value['value'].lower() for slot in session.slotsAsObjects.get('Fact', list())]
+			fact = ' '.join(facts)
 
 		# noinspection SqlResolve
 		answer = self.databaseFetch(
@@ -228,7 +224,6 @@ class Userfacts(AliceSkill):
 				probabilityThreshold=0.01,
 				currentDialogState='answeringFactValue',
 				customData={
-					'skill': self.name,
 					'fact' : fact
 				}
 			)

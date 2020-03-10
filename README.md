@@ -6,7 +6,7 @@
 ### Description
 Now alice can remember things you teach her!
 
-- Version: 1.0.1
+- Version: 1.0.2
 - Author: Psychokiller1888
 - Maintainers: 
 - Alice minimum Version: 1.0.0-a6
