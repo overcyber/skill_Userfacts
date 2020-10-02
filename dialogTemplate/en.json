@@ -1,12 +1,9 @@
 {
 	"skill": "Userfacts",
-	"icon": "time",
-	"description": "Now alice can remember things you teach her!",
 	"slotTypes": [],
 	"intents": [
 		{
 			"name": "GetUserFact",
-			"description": "User asks for a fact about himself",
 			"enabledByDefault": true,
 			"utterances": [
 				"can you tell me what's my {favorite:=>Fact} {color:=>Fact}",
@@ -45,7 +42,6 @@
 		},
 		{
 			"name": "DeleteAllUserFacts",
-			"description": "User wants all his data erased",
 			"enabledByDefault": true,
 			"utterances": [
 				"delete all you know about me",
