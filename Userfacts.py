@@ -12,9 +12,9 @@ class Userfacts(AliceSkill):
 
 	_INTENT_GET_USER_FACT = Intent('GetUserFact')
 	_INTENT_DELETE_ALL_FACTS = Intent('DeleteAllUserFacts')
-	_INTENT_USER_ANSWER = Intent('UserRandomAnswer', isProtected=True)
-	_INTENT_ANSWER_YES_OR_NO = Intent('AnswerYesOrNo', isProtected=True)
-	_INTENT_SPELL_WORD = Intent('SpellWord', isProtected=True)
+	_INTENT_USER_ANSWER = Intent('UserRandomAnswer')
+	_INTENT_ANSWER_YES_OR_NO = Intent('AnswerYesOrNo')
+	_INTENT_SPELL_WORD = Intent('SpellWord')
 
 	DATABASE = {
 		'facts': [
