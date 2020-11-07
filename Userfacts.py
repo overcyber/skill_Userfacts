@@ -110,6 +110,7 @@ class Userfacts(AliceSkill):
 	def deleteAll(self, session: DialogSession):
 		if not session.user or session.user == constants.UNKNOWN_USER:
 			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
+			return
 
 		self.continueDialog(
 			sessionId=session.sessionId,
@@ -195,6 +196,7 @@ class Userfacts(AliceSkill):
 	def getUserFact(self, session: DialogSession, **_kwargs):
 		if not session.user or session.user == constants.UNKNOWN_USER:
 			self.endDialog(sessionId=session.sessionId, text=self.randomTalk(text='dontKnowYou'))
+			return
 
 		slots = session.slotsAsObjects
 		if not slots['Fact']:
