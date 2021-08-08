@@ -1,18 +1,14 @@
 {
     "name": "Userfacts",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "icon": "fas fa-user-check",
     "category": "entertainment",
     "author": "Psychokiller1888",
     "maintainers": [],
     "desc": "Now alice can remember things you teach her!",
-    "aliceMinVersion": "1.0.0-b3",
-    "systemRequirements": [
-        ""
-    ],
-    "pipRequirements": [
-        ""
-    ],
+    "aliceMinVersion": "1.0.0-rc1",
+    "systemRequirements": [""],
+    "pipRequirements": [""],
     "conditions": {
         "lang": [
             "en"
