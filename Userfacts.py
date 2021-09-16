@@ -233,5 +233,5 @@ class Userfacts(AliceSkill):
 			self._previousFact = fact
 			self.endDialog(
 				sessionId=session.sessionId,
-				text=self.randomTalk(text='fact', replace=[fact, answer['value']])
+				text=self.randomTalk(text='fact', replace=[fact, answer[0]['value']])
 			)
