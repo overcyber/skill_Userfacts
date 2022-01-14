@@ -1,0 +1,62 @@
+{
+	"skill": "Userfacts",
+	"slotTypes": [],
+	"intents": [
+		{
+			"name": "GetUserFact",
+			"enabledByDefault": true,
+			"utterances": [
+				"can you tell me what's my {favorite:=>Fact} {color:=>Fact}",
+				"can you tell me what's my {name:=>Fact} please",
+				"tell me what's my {name:=>Fact} please",
+				"tell me what's my {size:=>Fact}",
+				"do you know what's my {name:=>Fact}",
+				"do you remember what's my {favorite:=>Fact} {dish:=>Fact}",
+				"tell me who's my {wife:=>Fact}",
+				"do you know who's my {best:=>Fact} {friend:=>Fact}",
+				"do you remember who's my {dad:=>Fact}",
+				"do you know when's my {birthday:=>Fact}",
+				"do you know when my {birthday:=>Fact} is",
+				"do you remember when my {birthday:=>Fact} is",
+				"do you remember when's {birthday:=>Fact}",
+				"can you tell me when i {got:=>Fact} {my:=>Fact} {driver's:=>Fact} {license:=>Fact}",
+				"please tell me what my {cat:=>Fact} {name:=>Fact} is",
+				"do you know how {tall:=>Fact} i am",
+				"do remember how {tall:=>Fact} i am",
+				"do remember how much I {weigh:=>Fact}",
+				"do know how much I {weigh:=>Fact}",
+				"what's my {favorite:=>Fact} {season:=>Fact}",
+				"what's my {color:=>Fact}",
+				"what's my {favorite:=>Fact} {song:=>Fact} please",
+				"do you remember {the:=>Fact} {village:=>Fact} {where:=>Fact} {i:=>Fact} {grew:=>Fact} {up:=>Fact}"
+			],
+			"slots": [
+				{
+					"name": "Fact",
+					"required": false,
+					"type": "Alice/RandomWords",
+					"missingQuestion": ""
+				}
+			]
+		},
+		{
+			"name": "DeleteAllUserFacts",
+			"enabledByDefault": true,
+			"utterances": [
+				"delete all you know about me",
+				"forget everything about me",
+				"please completly forget about me",
+				"remove anything you know about me please",
+				"delete all my data please",
+				"i want you to forget about me",
+				"forget everything about me please",
+				"delete all stored data about me",
+				"get rid of all you know about me",
+				"please get rid of all my facts",
+				"please remove all my facts from your database",
+				"i don't want you to remember anything from me"
+			],
+			"slots": []
+		}
+	]
+}

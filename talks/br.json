@@ -1,0 +1,63 @@
+{
+	"dontKnowYou": [
+		"I'm sorry but I don't know who you are.",
+		"Sorry, can't answer, I don't know who you are.",
+		"Who are you? I need to know to answer you."
+	],
+	"noResult": [
+		"You never told me that. I'll remember if you tell me!",
+		"Sorry, I don't know, you never told. I can remember if you tell me!",
+		"I'm afraid you never told me that. I will remember if you tell me though!"
+	],
+	"fact": [
+		"You told me your {0} is <break time=\"25ms\"/>{1}.",
+		"You said your {0} is <break time=\"25ms\"/>{1}.",
+		""
+	],
+	"factConfirmValue": [
+		"You said {}?",
+		"Just to be sure, you said {}?",
+		"{}? Is that correct?",
+		"Did I understand correctly, you said {}?"
+	],
+	"confirmValueSaved": [
+		"Ok! I'll remember that!",
+		"Nice to know! I will remember!",
+		"Cool! I won't forget!",
+		"Great, i'll keep that in mind!"
+	],
+	"valueNotCorrect": [
+		"Oops, sorry, what is it then?",
+		"I did not understand correctly, sorry for that! What's the answer then?",
+		"I'm sorry, can you repeat it?"
+	],
+	"notUpToYou": [
+		"I'm sorry but it's not up to you to decide about that.",
+		"No, this decision is not yours to make!"
+	],
+	"okDeleted": [
+		"Ok, it's deleted",
+		"Ok, forgotten... What were we talking about?",
+		"Sure, cleared that from my database"
+	],
+	"okDeletedAll": [
+		"Sad me... Well, you're gone from my database...",
+		"Ok, gonna miss you though... I just... deleted... you",
+		"That's sad but well, if you want it... Poof! You're gone!"
+	],
+	"confirmDeleteAll": [
+		"Are you sure you want me to forget everything?",
+		"Are you really sure about that?",
+		"No problem but are you sure?"
+	],
+	"deleteAllDenied": [
+		"I'm breathing... Thought you wanted me to forget all about you...",
+		"You cam back to your senses at least! I would have missed you!",
+		"Thank you! It wouldn't feel right if you were a total stranger to me..."
+	],
+	"whatIsItNew": [
+		"Sure! I'm listening!",
+		"Ok, I can change it, tell me.",
+		"No problem, I'm all ears."
+	]
+}
