@@ -1,7 +1,7 @@
 {
     "name": "Userfacts",
     "speakableName": "User facts",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "icon": "fas fa-user-check",
     "category": "entertainment",
     "author": "Psychokiller1888",
